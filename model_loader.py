@@ -1,7 +1,10 @@
 import os
 import gdown
+from keras.src.models.functional import Functional
 from keras.src.saving.saving_api import load_model
 from keras.src.saving import saving_lib
+from tensorflow.keras import Model
+
 MODEL_PATH = "models/InceptionV3_hybrid.h5"
 DRIVE_FILE_ID = "1XTXWWF8wxFGRAH30VVRIDVfwniivdQ9t"
 
@@ -16,5 +19,7 @@ def download_model():
 
 def load_detection_model():
     download_model()
-    return load_model(MODEL_PATH, compile=False)
+    return load_model(MODEL_PATH, compile=False, custom_objects={
+        'Functional': Model  # use Model for Functional deserialization
+    })
 
