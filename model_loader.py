@@ -17,10 +17,15 @@ def download_model():
         print("Model already downloaded.")
 
 def load_detection_model():
-    download_model()
     try:
-        return load_model(MODEL_PATH, compile=False)
-    except TypeError as e:
-        print("❌ TypeError while loading the model:")
-        print(e)
+        # Explicitly handle possible Lambda layers or TF ops
+        return load_model(
+            MODEL_PATH,
+            compile=False,
+            custom_objects={
+                "TFOpLambda": tf.keras.layers.Lambda  # handles many auto-generated ops
+            }
+        )
+    except Exception as e:
+        print("❌ Failed to load model:")
         raise e
