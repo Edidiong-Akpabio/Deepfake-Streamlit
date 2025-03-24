@@ -18,7 +18,9 @@ def download_model():
 
 def load_detection_model():
     download_model()
-    return load_model(MODEL_PATH, compile=False, custom_objects={
-        'Functional': Model  # use Model for Functional deserialization
-    })
-
+    try:
+        return load_model(MODEL_PATH, compile=False)
+    except TypeError as e:
+        print("❌ TypeError while loading the model:")
+        print(e)
+        raise e
