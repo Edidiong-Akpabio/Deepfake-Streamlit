@@ -16,5 +16,5 @@ def download_model():
 
 def load_detection_model():
     download_model()
-    return load_model(MODEL_PATH, compile=False)
+    return saving_lib.load_model(MODEL_PATH, compile=False)
 
