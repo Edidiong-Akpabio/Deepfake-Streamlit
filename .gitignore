@@ -28,3 +28,6 @@ uploads/
 *.png
 *.avi
 *.mov
+
+# Ignore model file
+models/InceptionV3_hybrid.keras

@@ -10,45 +10,47 @@ from utils.frame_extractor import extract_frames
 from utils.image_utils import prepare_image
 from model_loader import load_detection_model
 
-# Load your model once
-model = load_detection_model()
+# Load model
+with st.spinner("🔄 Loading detection model..."):
+    model = load_detection_model()
 
-# Streamlit app
-st.title("🔍 Deepfake Detection App")
+# Streamlit app UI
+st.set_page_config(page_title="Deepfake Detector", layout="centered")
+st.title("🧠 Deepfake Detection App")
 st.write("Upload an image or video to detect if it's real or fake.")
 
-uploaded_file = st.file_uploader("Choose an image or video", type=["jpg", "jpeg", "png", "mp4", "avi", "mov"])
+uploaded_file = st.file_uploader("📂 Choose an image or video", type=["jpg", "jpeg", "png", "mp4", "avi", "mov"])
 
 if uploaded_file is not None:
     filename = uploaded_file.name
 
     if not allowed_file(filename):
-        st.error("Invalid file type.")
+        st.error("❌ Invalid file type. Please upload an image or video.")
     else:
         # Save file temporarily
         with NamedTemporaryFile(delete=False, dir=UPLOAD_FOLDER, suffix=os.path.splitext(filename)[1]) as temp_file:
             temp_file.write(uploaded_file.read())
             filepath = temp_file.name
 
-        st.info(f"File uploaded: {filename}")
+        st.success(f"✅ File uploaded: `{filename}`")
 
         try:
             if filename.lower().endswith(('mp4', 'avi', 'mov')):
                 st.video(filepath)
-                st.write("Extracting frames...")
+                st.info("⏳ Extracting frames...")
                 frames = extract_frames(filepath, NUM_FRAMES)
 
                 if frames.size == 0:
-                    st.error("No frames could be extracted from the video.")
+                    st.error("⚠️ No frames could be extracted from the video.")
                 else:
-                    with st.spinner("Predicting..."):
+                    with st.spinner("🔍 Predicting deepfake probability..."):
                         predictions = model.predict(frames).flatten()
                         avg_prediction = np.mean(predictions)
                         file_type = 'video'
             else:
-                st.image(filepath)
+                st.image(filepath, caption="Uploaded Image", use_column_width=True)
                 img_array = prepare_image(filepath)
-                with st.spinner("Predicting..."):
+                with st.spinner("🔍 Predicting deepfake probability..."):
                     avg_prediction = model.predict(img_array)[0][0]
                     file_type = 'image'
 
@@ -60,12 +62,13 @@ if uploaded_file is not None:
             else:
                 result = "🟨 Uncertain"
 
-            st.subheader("Prediction Result")
-            st.write(f"**Result**: {result}")
-            st.write(f"**Confidence Score**: {avg_prediction:.4f}")
-            st.write(f"**File Type**: {file_type}")
+            st.markdown("---")
+            st.subheader("📊 Prediction Result")
+            st.write(f"**🧾 Result:** {result}")
+            st.write(f"**📈 Confidence Score:** `{avg_prediction:.4f}`")
+            st.write(f"**📁 File Type:** `{file_type}`")
 
         except Exception as e:
-            st.error(f"Error: {str(e)}")
+            st.error(f"❌ Error during prediction: {str(e)}")
         finally:
             os.remove(filepath)
