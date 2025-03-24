@@ -3,6 +3,7 @@ import gdown
 from tensorflow.keras.models import load_model
 from keras.src.saving import saving_lib
 from tensorflow.keras import Model
+import tensorflow as tf
 
 MODEL_PATH = "models/InceptionV3_hybrid.keras"
 DRIVE_FILE_ID = "15QyIEgSRC38_LZooVJzDD5UZnODhyBdr"
