@@ -1,7 +1,6 @@
 import os
 import gdown
-from keras.src.models.functional import Functional
-from keras.src.saving.saving_api import load_model
+from tensorflow.keras.models import load_model
 from keras.src.saving import saving_lib
 from tensorflow.keras import Model
 
