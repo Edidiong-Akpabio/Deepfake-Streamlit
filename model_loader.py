@@ -1,6 +1,6 @@
 import os
 import gdown
-from keras.models import load_model
+from keras.src.saving.saving_api import load_model
 
 MODEL_PATH = "models/InceptionV3_hybrid.keras"
 DRIVE_FILE_ID = "15QyIEgSRC38_LZooVJzDD5UZnODhyBdr"
