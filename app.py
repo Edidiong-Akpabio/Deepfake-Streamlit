@@ -1,4 +1,6 @@
 import streamlit as st
+st.set_page_config(page_title="Deepfake Detector", layout="centered")
+
 import os
 import numpy as np
 from tempfile import NamedTemporaryFile
@@ -14,8 +16,7 @@ from model_loader import load_detection_model
 with st.spinner("🔄 Loading detection model..."):
     model = load_detection_model()
 
-# Streamlit app UI
-st.set_page_config(page_title="Deepfake Detector", layout="centered")
+
 st.title("🧠 Deepfake Detection App")
 st.write("Upload an image or video to detect if it's real or fake.")
 
@@ -48,7 +49,7 @@ if uploaded_file is not None:
                         avg_prediction = np.mean(predictions)
                         file_type = 'video'
             else:
-                st.image(filepath, caption="Uploaded Image", use_column_width=True)
+                st.image(filepath, caption="Uploaded Image", use_container_width=True)
                 img_array = prepare_image(filepath)
                 with st.spinner("🔍 Predicting deepfake probability..."):
                     avg_prediction = model.predict(img_array)[0][0]
