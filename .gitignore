@@ -1,0 +1,30 @@
+# .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.h5
+
+# Environments
+.venv/
+env/
+venv/
+
+# Streamlit cache
+.streamlit/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Uploads and temporary files
+uploads/
+*.mp4
+*.jpg
+*.jpeg
+*.png
+*.avi
+*.mov
