@@ -2,8 +2,8 @@ import os
 import gdown
 from keras.models import load_model
 
-MODEL_PATH = "models/InceptionV3_hybrid.keras"
-DRIVE_FILE_ID = "15QyIEgSRC38_LZooVJzDD5UZnODhyBdr"
+MODEL_PATH = "models/InceptionV3_hybrid.h5"
+DRIVE_FILE_ID = "1XTXWWF8wxFGRAH30VVRIDVfwniivdQ9t"
 
 def download_model():
     if not os.path.exists(MODEL_PATH):
@@ -17,3 +17,4 @@ def download_model():
 def load_detection_model():
     download_model()
     return load_model(MODEL_PATH, compile=False)
+
