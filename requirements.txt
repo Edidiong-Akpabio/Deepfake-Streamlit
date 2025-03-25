@@ -1,5 +1,10 @@
+streamlit
+opencv-python
 numpy
+tensorflow
+Pillow
 gdown
+
 tensorflow>=2.12
 keras>=3.0
 ml-dtypes==0.2.0
