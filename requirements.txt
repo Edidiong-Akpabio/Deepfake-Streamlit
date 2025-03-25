@@ -5,9 +5,9 @@ tensorflow
 Pillow
 gdown
 
-tensorflow>=2.12
-keras>=3.0
-ml-dtypes==0.2.0
+tensorflow
+keras
+ml-dtypes
 gdown
 opencv-python-headless
 streamlit
