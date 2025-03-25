@@ -18,13 +18,13 @@ def download_model():
         print("Model already downloaded.")
 
 def load_detection_model():
+    download_model()  # Make sure model is downloaded first!
     try:
-        # Explicitly handle possible Lambda layers or TF ops
         return load_model(
             MODEL_PATH,
             compile=False,
             custom_objects={
-                "TFOpLambda": tf.keras.layers.Lambda  # handles many auto-generated ops
+                "TFOpLambda": tf.keras.layers.Lambda
             }
         )
     except Exception as e:
