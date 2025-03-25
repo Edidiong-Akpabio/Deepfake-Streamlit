@@ -36,9 +36,3 @@ def load_detection_model():
         """)
         st.stop()
 
-
-# Test
-st.title("Deepfake Detector")
-with st.spinner("Loading model..."):
-    model = load_detection_model()
-st.success("Model loaded!")
