@@ -21,9 +21,7 @@ def load_detection_model():
         return load_model(
             MODEL_PATH,
             compile=False,
-            custom_objects={
-                "TFOpLambda": tf.keras.layers.Lambda
-            }
+
         )
     except Exception as e:
         print("❌ Failed to load model:")
