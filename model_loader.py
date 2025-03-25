@@ -1,6 +1,6 @@
 import os
 import gdown
-from keras.model import load_model
+from keras.models import load_model
 import tensorflow as tf
 
 MODEL_PATH = "models/InceptionV3_hybrid.keras"
