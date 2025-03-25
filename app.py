@@ -1,26 +1,43 @@
 import streamlit as st
-st.set_page_config(page_title="Deepfake Detector", layout="centered")
-
 import os
 import numpy as np
 from tempfile import NamedTemporaryFile
 
-# Import your existing functions and configs
+# Set page config first
+st.set_page_config(
+    page_title="Deepfake Detector",
+    layout="centered",
+    menu_items={
+        'Get Help': 'https://github.com/your-repo/issues',
+        'Report a bug': "https://github.com/your-repo/issues",
+        'About': "# Deepfake Detection App"
+    }
+)
+
+# Initialize session state
+if 'model' not in st.session_state:
+    from model_loader import load_detection_model
+    st.session_state.model = load_detection_model()
+
+# Import other components after model is loaded
 from config import UPLOAD_FOLDER, FAKE_THRESHOLD, REAL_THRESHOLD, NUM_FRAMES
 from utils.file_utils import allowed_file
 from utils.frame_extractor import extract_frames
 from utils.image_utils import prepare_image
-from model_loader import load_detection_model
 
-# Load model
-with st.spinner("🔄 Loading detection model..."):
-    model = load_detection_model()
+# Create upload folder if not exists
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-
+# App UI
 st.title("🧠 Deepfake Detection App")
 st.write("Upload an image or video to detect if it's real or fake.")
 
-uploaded_file = st.file_uploader("📂 Choose an image or video", type=["jpg", "jpeg", "png", "mp4", "avi", "mov"])
+# File uploader
+uploaded_file = st.file_uploader(
+    "📂 Choose an image or video",
+    type=["jpg", "jpeg", "png", "mp4", "avi", "mov"],
+    help="Maximum file size: 200MB"
+)
 
 if uploaded_file is not None:
     filename = uploaded_file.name
