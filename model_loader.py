@@ -29,7 +29,7 @@ def load_detection_model():
         st.stop()
 
     try:
-        return load_model(
+        return tf.keras.models.load_model(
             MODEL_PATH,
             compile=False,
             custom_objects={
