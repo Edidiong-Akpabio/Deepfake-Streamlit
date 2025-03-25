@@ -62,14 +62,16 @@ if uploaded_file is not None:
                     st.error("⚠️ No frames could be extracted from the video.")
                 else:
                     with st.spinner("🔍 Predicting deepfake probability..."):
-                        predictions = model.predict(frames).flatten()
+                        # Use st.session_state.model instead of model
+                        predictions = st.session_state.model.predict(frames).flatten()
                         avg_prediction = np.mean(predictions)
                         file_type = 'video'
             else:
-                st.image(filepath, caption="Uploaded Image", use_container_width=True)
+                st.image(filepath, caption="Uploaded Image", use_column_width=True)
                 img_array = prepare_image(filepath)
                 with st.spinner("🔍 Predicting deepfake probability..."):
-                    avg_prediction = model.predict(img_array)[0][0]
+                    # Use st.session_state.model instead of model
+                    avg_prediction = st.session_state.model.predict(img_array)[0][0]
                     file_type = 'image'
 
             # Interpretation
